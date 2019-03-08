@@ -115,6 +115,7 @@ def getContigsByOrganismId(organism_id:int):
 
 
 def organismValidation(id_organism:int, path_to_save:str):
+    print('start organism {0}'.format(id_organism))
 
     list_proteins = getProteinsListByOrganismId(id_organism)
     whole_dna_obj = getWholeGenomeByOrganismId(id_organism)
@@ -128,14 +129,16 @@ def organismValidation(id_organism:int, path_to_save:str):
     dict_error_protein = checkSequenceProteins(list_proteins)
 
     if len(dict_error_protein) > 0:
-        writeDictProteinError(dict_error_protein, bacterium_id, path_write)
+        writeDictProteinError(dict_error_protein, id_organism, path_write)
 
     if len(dict_errors_contig) > 0:
-        writeDictContigError(dict_errors_contig, bacterium_id, path_write)
+        writeDictContigError(dict_errors_contig, id_organism, path_write)
 
     if len(dict_errors_whole_dna) > 0:
-        writeDictWholeDNAError(dict_errors_whole_dna, bacterium_id, path_write)
+        if 'No whole DNA' not in dict_errors_whole_dna.keys():
+            writeDictWholeDNAError(dict_errors_whole_dna, id_organism, path_write)
 
+    print('End organism {0}'.format(id_organism))
     return True
 
 def writeOrganismValidated(path_save:str, list_ids_bacteria:np):
@@ -166,11 +169,22 @@ list_ids_bacteria = list(set(list_ids_bacteria))
 list_ids_phage = [couple_obj.bacteriophage for couple_obj in list_couples]
 list_ids_phage = list(set(list_ids_phage))
 
+list_ids_organism_validated = readOrganismValidated(path_organisme_validated)
+
+for phage_id in list_ids_phage:
+
+    path_write = 'error_organisms/phage/'
+
+    if phage_id not in list_ids_organism_validated:
+        result_insertion = organismValidation(phage_id, path_write)
+        if result_insertion:
+            list_ids_organism_validated = np.append(list_ids_organism_validated, phage_id)
+            writeOrganismValidated(path_organisme_validated, list_ids_organism_validated)
 
 
 for bacterium_id in list_ids_bacteria:
 
-    path_write = 'error_organisms/bacterium/'
+    path_write = 'error_organisms/phage/'
 
     if bacterium_id not in list_ids_bacteria_validated:
         result_insertion = organismValidation(bacterium_id, path_write)
