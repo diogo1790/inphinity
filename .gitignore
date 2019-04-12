@@ -477,3 +477,4 @@ ASALocalRun/
 .vs/slnx.sqlite
 *.sqlite
 test_rest.py
+*.sqlite
