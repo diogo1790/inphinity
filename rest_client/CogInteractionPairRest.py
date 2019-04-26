@@ -2,15 +2,16 @@ import json
 from rest_client.GetRest import GetRest
 from rest_client.PostRest import PostRest
 
-class CogAPI(object):
+
+class CogInteractionPairAPI(object):
     """
-    This class manage the requests for the cog objects into the restAPI
+    This class manage the requests for the cog interaction pair objects into the restAPI
 
     :param function: the name of the function to access in the rest API
     :type function: string
     """
 
-    def __init__(self, function='cog/'):
+    def __init__(self, function='coginteractpair/'):
         """
         Initialization of the class
 
@@ -23,7 +24,7 @@ class CogAPI(object):
 
     def getAll(self):
         """
-        get all the cogs on the database
+        get all the cogs interaction pair on the database
 
         :return: json file with all the data
         :rtype: string (json format)
@@ -33,7 +34,7 @@ class CogAPI(object):
 
     def setCog(self, jsonData):
         """
-        set new cogs in the database
+        set new cogs interaction pair in the database
 
         :return: json file with the last genus created
         :rtype: string (json format)
@@ -42,26 +43,26 @@ class CogAPI(object):
         result_post = PostRest(function = self.function, dataDict = jsonData).performRequest()
         return result_post
 
-    def getById(self, id_cog:int):
+    def getById(self, id_cog_interaction_pair:int):
         """
-        get a cog given it id
+        get a cog interaction pair given it id
 
-        :param id_cog: id of the cog
+        :param id_cog_interaction_pair: id of the cog interaction pair
 
-        :type id_cog: int
+        :type id_cog_interaction_pair: int
 
         :return: json file with all the data
         :rtype: string (json format)
         """
 
-        self.function += str(id_cog) + '/'
+        self.function += str(id_cog_interaction_pair) + '/'
 
         result_get = GetRest(function = self.function).performRequest()
         return result_get
 
-    def getCogsByParameters(self, url_parameters:str):
+    def getCogsInteractionsPairsByParameters(self, url_parameters:str):
         """
-        return a list of cogs according the parameters you send
+        return a list of cogs interaction pair according the parameters you send
 
         :param url_parameters: string that contains the parameters values (that design the fields)
 
