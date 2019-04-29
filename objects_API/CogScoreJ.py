@@ -48,7 +48,7 @@ class CogScoreJson(object):
         override the Str function 
 
         """
-        return 'id: {0} score {1} cog method score id {2} cog interaction source id {3}'.format(self.id, self.score, self.cog_methode_score, self.cog_interaction_source)
+        return 'id: {0} score {1} cog method score id {2} cog interaction source id {3}'.format(self.id, self.score, self.cog_method_score, self.cog_interaction_source)
 
     def getAllAPI():
 
