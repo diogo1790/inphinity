@@ -10,7 +10,7 @@ class CogsScoreSchema(Schema):
     """
     id = fields.Int()
     score = fields.Float()
-    cog_methode_score = fields.Int()
+    cog_method_score = fields.Int()
     cog_interaction_source = fields.Int()
 
     @post_load
@@ -22,7 +22,7 @@ class CogScoreJson(object):
     This class manage the object and is used to map them into json format
     """
 
-    def __init__(self, id = None, designation = ''):
+    def __init__(self, id = None, score = 0.0, cog_method_score = -1, cog_interaction_source = -1):
         """
         Initialization of the class
 
@@ -39,7 +39,7 @@ class CogScoreJson(object):
         """
         self.id = id
         self.score = score
-        self.cog_methode_score = cog_methode_score
+        self.cog_method_score = cog_method_score
         self.cog_interaction_source = cog_interaction_source
 
 
@@ -48,7 +48,7 @@ class CogScoreJson(object):
         override the Str function 
 
         """
-        return 'id: {0} score {1} cog method score id {2} cog interaction source id {3}'.format(self.id, self.score, self.cog_methode_score, self.cog_interaction_source)
+        return 'id: {0} score {1} cog method score id {2} cog interaction source id {3}'.format(self.id, self.score, self.cog_method_score, self.cog_interaction_source)
 
     def getAllAPI():
 
@@ -59,6 +59,7 @@ class CogScoreJson(object):
         :rtype: vector[CogScoreJ]
         """
         list_cogs_score = CogScoreAPI().getAll()
+        print(list_cogs_score)
         schema = CogsScoreSchema()
         results = schema.load(list_cogs_score, many=True)
         return results
