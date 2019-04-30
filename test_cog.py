@@ -2,6 +2,8 @@ from configuration.configuration_api import ConfigurationAPI
 from rest_client.AuthenticationRest import AuthenticationAPI
 
 
+
+
 from objects_API.ProteinPFAMJ import ProteinPFAMJson
 
 from objects_API.CogScoreJ import CogScoreJson
