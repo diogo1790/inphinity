@@ -60,6 +60,7 @@ class CogInteractionSourceJson(object):
         :rtype: vector[CogInteractionSourceJson]
         """
         list_cog_interaction_source = CogInteractionSourceAPI().getAll()
+
         schema = CogInteractionSourceSchema()
         results = schema.load(list_cog_interaction_source, many=True)
         return results
@@ -96,7 +97,7 @@ class CogInteractionSourceJson(object):
         results = schema.load(cogMethod, many=False)
         return results
 
-    def getCogsInteractSOurceByFilterParameter(dict_parameters:dict):
+    def getCogsInteractSourceByFilterParameter(dict_parameters:dict):
         """
         get a list of cog  interaction source given a filters by fields E.G: dict['level']=1
         return all couples with the level at 1
@@ -117,5 +118,5 @@ class CogInteractionSourceJson(object):
         list_cogs_interact_source = CogInteractionSourceAPI().getCogsInteractionSourceByParameters(url_parameters)
         schema = CogInteractionSourceSchema()
         results = schema.load(list_cogs_interact_source, many=True)
-        return results[0]
+        return results
 
