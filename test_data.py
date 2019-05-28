@@ -7,9 +7,13 @@ from objects_API.ProteinJ import ProteinJson
 
 from objects_API.CogScoreJ import CogScoreJson
 
+from objects_API.PPICogScoreJ import PPICogScoreJson
+
 conf_obj = ConfigurationAPI()
 conf_obj.load_data_from_ini()
 AuthenticationAPI().createAutenthicationToken()
+
+
 
 
 list_cog_score = CogScoreJson.getAllAPI()
