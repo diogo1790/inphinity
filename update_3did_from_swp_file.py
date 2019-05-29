@@ -14,11 +14,6 @@ from objects_API.DomainInteractionPairJ import DomainInteractionPairJson
 
 
 
-path_file = '/home/diogo/Desktop/3did_flat_Mar_10_2019_UTF.dat.txt'
-
-
-
-
 #Corect from here
 
 
@@ -84,7 +79,34 @@ def findLinesWithDomains(content_file:str, regex_expression:str, dict_domain:dic
                 domains_b_designation = vec_PFAM_pairs[1]
                 id_domain_a = checkDomain(domains_a_designation, dict_domain)
                 id_domain_b = checkDomain(domains_b_designation, dict_domain)
-                #ddi_interact_pair = DomainInteractionPairJson(vec_PFAM_pairs[0], vec_PFAM_pairs[1])
+
+                id_ddi_pair = checkAddDDIInteractionPairExists(id_domain_a, id_domain_b)
+
+
+
+def checkAddDDIInteractionPairExists(id_domain_a:int, id_domain_b:int):
+    """
+    check if a given DDI pair already exits, if not insert it and return it is ID if yes return the ID
+
+    :param id_domain_a: id of the domain a
+    :param id_domain_b: id of the domain b
+
+    :type id_domain_a: int
+    :type id_domain_b: int 
+
+
+    :return: id of the DDI pair
+    :rtype: id
+
+    """
+
+    ddi_interact_pair_id = DomainInteractionPairJson.verifyDDIpairExistence(id_domain_a, id_domain_b)
+    if ddi_interact_pair_id == -1:
+        ddi_interact_pair = DomainInteractionPairJson(vec_PFAM_pairs[0], vec_PFAM_pairs[1])
+        ddi_interact_pair = ddi_interact_pair.setDomainInteractionPair()
+        ddi_interact_pair_id = ddi_interact_pair.id
+    ddi_interact_pair_id = ddi_interact_pair.verifyDDIpairExistence()
+    return ddi_interact_pair_id
 
 
 #Domains part
@@ -109,7 +131,7 @@ def checkDomain(domain_designation:str, dict_domains:dict):
     if domain_designation in dict_domains.keys():
         id_domain = dict_domains[domain_designation]
     else:
-        domain_obj = DomainJson(domain_designation)
+        domain_obj = DomainJson(designation = domain_designation)
         domain_obj = domain_obj.setDomain()
         id_domain = domain_obj.id
         dict_domains[domain_designation] = id_domain
@@ -148,7 +170,8 @@ print(list_domains_db[0:10])
 dict_domains = convertListDomainToDict(list_domains_db)
 
 regex_expression = 'PF\d{5}'
-path_file = '/home/diogo/Desktop/3did_flat_Mar_10_2019_UTF.dat.txt'
+path_file = '3did_flat_Mar_10_2019_UTF.dat.txt'
+#path_file = '/home/diogo/Desktop/3did_flat_Mar_10_2019_UTF.dat.txt'
 content_file = readFileContent(path_file)
 
 findLinesWithDomains(content_file ,regex_expression, dict_domains)
