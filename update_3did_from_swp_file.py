@@ -2,12 +2,17 @@
 
 
 import re
+import datetime
 
 from configuration.configuration_api import ConfigurationAPI
 from rest_client.AuthenticationRest import AuthenticationAPI
 
 from objects_API.DomainJ import DomainJson
 from objects_API.DomainInteractionPairJ import DomainInteractionPairJson
+from objects_API.DomainInteractionSourceJ import DomainInteractionSourceJson
+
+
+
 
 
 
@@ -81,8 +86,35 @@ def findLinesWithDomains(content_file:str, regex_expression:str, dict_domain:dic
                 id_domain_b = checkDomain(domains_b_designation, dict_domain)
 
                 id_ddi_pair = checkAddDDIInteractionPairExists(id_domain_a, id_domain_b)
+                id_ddi_pair_source = checkAddDDIPairSource(id_ddi_pair, 2)
+                print('Id of the new ddi pair {0}'.format(str(id_ddi_pair_source)))
+                
 
 
+def checkAddDDIPairSource(id_ddi_pair:int, id_source:int):
+    """
+    check if the ddi insteraction pair already exists for 3did source
+
+    :param id_ddi_pair: id of the ddi_interaction_pair
+    :param id_source: source id
+
+    :type id_ddi_pair: int
+    :type id_source: int 
+
+
+    :return: id of the ddi interaction source
+    :rtype: int
+
+    """
+
+    id_interaction_source_pair = DomainInteractionSourceJson.verifyDDIpairSourceExistence(id_ddi_pair, 2)
+    if id_interaction_source_pair == -1:
+
+        actual_date_time = datetime.datetime.now().date()
+        ddi_interaction_source_pair = DomainInteractionSourceJson(actual_date_time, id_ddi_pair, id_source)
+        ddi_interaction_source_pair = ddi_interaction_source_pair.setDomainInteractionSource()
+        id_interaction_source_pair = ddi_interaction_source_pair.id
+    return id_interaction_source_pair
 
 def checkAddDDIInteractionPairExists(id_domain_a:int, id_domain_b:int):
     """
@@ -99,13 +131,12 @@ def checkAddDDIInteractionPairExists(id_domain_a:int, id_domain_b:int):
     :rtype: id
 
     """
-
-    ddi_interact_pair_id = DomainInteractionPairJson.verifyDDIpairExistence(id_domain_a, id_domain_b)
+    ddi_interact_pair = DomainInteractionPairJson(id_domain_a, id_domain_b)
+    ddi_interact_pair_id = ddi_interact_pair.verifyDDIpairExistenceID()
     if ddi_interact_pair_id == -1:
-        ddi_interact_pair = DomainInteractionPairJson(vec_PFAM_pairs[0], vec_PFAM_pairs[1])
+        
         ddi_interact_pair = ddi_interact_pair.setDomainInteractionPair()
         ddi_interact_pair_id = ddi_interact_pair.id
-    ddi_interact_pair_id = ddi_interact_pair.verifyDDIpairExistence()
     return ddi_interact_pair_id
 
 
@@ -159,7 +190,6 @@ def convertListDomainToDict(list_domains:list):
 conf_obj = ConfigurationAPI()
 conf_obj.load_data_from_ini()
 AuthenticationAPI().createAutenthicationToken()
-
 
 #18005 domains
 #id max = 18632
