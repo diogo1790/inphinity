@@ -76,18 +76,19 @@ def findLinesWithDomains(content_file:str, regex_expression:str, dict_domain:dic
 
     """
     for record in content_file.split('\n'):
-        for i in record:
-            if record.startswith('#=ID'):
-                vec_PFAM_pairs = getPFAMDomainInLine(record, regex_expression)
-                assert len(vec_PFAM_pairs) == 2
-                domains_a_designation = vec_PFAM_pairs[0]
-                domains_b_designation = vec_PFAM_pairs[1]
-                id_domain_a = checkDomain(domains_a_designation, dict_domain)
-                id_domain_b = checkDomain(domains_b_designation, dict_domain)
+        #for i in record:
+        if record.startswith('#=ID'):
+            print(record)
+            vec_PFAM_pairs = getPFAMDomainInLine(record, regex_expression)
+            assert len(vec_PFAM_pairs) == 2
+            domains_a_designation = vec_PFAM_pairs[0]
+            domains_b_designation = vec_PFAM_pairs[1]
+            id_domain_a = checkDomain(domains_a_designation, dict_domain)
+            id_domain_b = checkDomain(domains_b_designation, dict_domain)
 
-                id_ddi_pair = checkAddDDIInteractionPairExists(id_domain_a, id_domain_b)
-                id_ddi_pair_source = checkAddDDIPairSource(id_ddi_pair, 2)
-                print('Id of the new ddi pair {0}'.format(str(id_ddi_pair_source)))
+            id_ddi_pair = checkAddDDIInteractionPairExists(id_domain_a, id_domain_b)
+            id_ddi_pair_source = checkAddDDIPairSource(id_ddi_pair, 2)
+            print('Id of the new ddi pair {0}'.format(str(id_ddi_pair_source)))
                 
 
 
@@ -200,7 +201,7 @@ print(list_domains_db[0:10])
 dict_domains = convertListDomainToDict(list_domains_db)
 
 regex_expression = 'PF\d{5}'
-path_file = '3did_flat_Mar_10_2019_UTF.dat.txt'
+path_file = '3did_flat_Mar_10_2019_UTF_only_ids.txt'
 #path_file = '/home/diogo/Desktop/3did_flat_Mar_10_2019_UTF.dat.txt'
 content_file = readFileContent(path_file)
 
