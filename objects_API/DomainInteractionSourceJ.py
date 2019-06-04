@@ -66,10 +66,10 @@ class DomainInteractionSourceJson(object):
         """
         schema = DomainInteractionSourceSchema(only=['date_creation','domain_interaction','information_source'])
         json_domain = schema.dump(self)
-        resultsCreation = DomainInteractionSourceAPI().setDomainInteractionSource(jsonData = json_domain.data)
+        resultsCreation = DomainInteractionSourceAPI().setDomainInteractionSource(jsonData = json_domain)
         schema = DomainInteractionSourceSchema()
         results = schema.load(resultsCreation)
-        return results[0]
+        return results
 
 
     def verifyDDIpairSourceExistence(id_ddi:int, id_source:int):

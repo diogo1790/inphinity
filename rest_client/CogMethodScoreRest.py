@@ -2,15 +2,15 @@ import json
 from rest_client.GetRest import GetRest
 from rest_client.PostRest import PostRest
 
-class ProteinAPI(object):
+class CogMethodScoreAPI(object):
     """
-    This class manage the requests for the Proteins objects into the restAPI
+    This class manage the requests for the cogMethodScore objects into the restAPI
 
     :param function: the name of the function to access in the rest API
     :type function: string
     """
 
-    def __init__(self, function='protein/'):
+    def __init__(self, function='cogmethodscore/'):
         """
         Initialization of the class
 
@@ -21,9 +21,9 @@ class ProteinAPI(object):
         """
         self.function = function
 
-    def get_all(self):
+    def getAll(self):
         """
-        get all the Proteins on the database
+        get all the cogs Method Score on the database
 
         :return: json file with all the data
         :rtype: string (json format)
@@ -31,37 +31,38 @@ class ProteinAPI(object):
         result_get = GetRest(function = self.function).performRequest()
         return result_get
 
-    def set_protein(self, jsonData):
+    def setCogMethodScore(self, jsonData):
         """
-        set new protein in the database
+        set new cogs Methods Score in the database
 
-        :return: json file with the last protein created
+        :return: json file with the last genus created
         :rtype: string (json format)
         """
         jsonData = json.dumps(jsonData)
         result_post = PostRest(function = self.function, dataDict = jsonData).performRequest()
         return result_post
 
-    def getByOrganismID(self, organism_id):
+    def getById(self, id_genus:int):
         """
-        get all proteins of a given organism
+        get a Cog method Score given it id
 
-        :param organism_id: organism ID
+        :param id_cog_method_score: id of the cog method score
 
-        :type organism_id: int
+        :type id_cog_method_score: int
 
-        :return: all the proteins of the given organism id
-        :rtype: ProteinJson
+        :return: json file with all the data
+        :rtype: string (json format)
         """
 
-        self.function += 'organism_id/' + str(organism_id)
+        self.function += str(id_genus) + '/'
 
         result_get = GetRest(function = self.function).performRequest()
         return result_get
 
-    def getProteinsByParameters(self, url_parameters:str):
+
+    def getCogsMethodScoreByParameters(self, url_parameters:str):
         """
-        return a proteins according the parameters you send
+        return a list of cogs Method Score according the parameters you send
 
         :param url_parameters: string that contains the parameters values (that design the fields)
 

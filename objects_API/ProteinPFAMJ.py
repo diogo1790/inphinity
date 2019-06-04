@@ -76,7 +76,7 @@ class ProteinPFAMJson(object):
         list_protein_pfam = ProteinPFAMAPI().get_all()
         schema = ProteinPFAMSchema()
         results = schema.load(list_protein_pfam, many=True)
-        return results[0]
+        return results
 
     def setProteinPFAM(self):
         """
@@ -90,4 +90,26 @@ class ProteinPFAMJson(object):
         resultsCreation = ProteinPFAMAPI().setProteinPFAM(jsonData = json_protein_Pfam.data)
         schema = ProteinPFAMSchema()
         results = schema.load(resultsCreation)
+        return results[0]
+
+    def getProteinPfamByFilterParameter(dict_parameters:dict):
+        """
+        get a list of proteinsPfam given a filters by fields E.G: dict['level']=1
+        return all proteinPfam with the level at 1
+
+        :param dict_parameters: dictionary that contain the fields and values to filter
+
+        :type dict_parameters: dictionary
+
+        :return: a json of the proteinPfam
+        :rtype: list[proteinPfamJson]
+        """
+        url_parameters = ''
+        for key_param in dict_parameters:
+            url_parameters += key_param + '=' + str(dict_parameters[key_param]) + '&'
+
+        url_parameters = url_parameters[:-1]
+        list_proteinPfam = ProteinPFAMAPI().getProteinsPFAMByParameters(url_parameters)
+        schema = ProteinPFAMSchema()
+        results = schema.load(list_proteinPfam, many=True)
         return results[0]
