@@ -142,4 +142,4 @@ class ProteinJson(object):
         list_protein = ProteinAPI().getProteinsByParameters(url_parameters)
         schema = ProteinSchema()
         results = schema.load(list_protein, many=True)
-        return results[0]
+        return results

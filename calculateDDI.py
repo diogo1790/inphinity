@@ -4,6 +4,7 @@ from rest_client.AuthenticationRest import AuthenticationAPI
 from objects_API.ProteinPFAMJ import ProteinPFAMJson
 from objects_API.ProteinJ import ProteinJson
 from objects_API.CoupleJ import CoupleJson
+from objects_Api.ProteinJ import ProteinJson
 
 
 conf_obj = ConfigurationAPI()
