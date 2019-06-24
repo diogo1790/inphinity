@@ -308,8 +308,8 @@ for couple_obj in list_couples:
     print(type(dataFrame_Cartezian))
     dataframe_resume_mean_std = computeMeanStd(dataFrame_Cartezian)
 
-    dataframe_resume_mean_std['id_couple'] = couple.id
-    dataframe_resume_mean_std['label'] = couple.interaction_type
+    dataframe_resume_mean_std['id_couple'] = couple_obj.id
+    dataframe_resume_mean_std['label'] = couple_obj.interaction_type
 
     dataframe_results_CH = dataframe_results_CH.append(dataframe_resume_mean_std, ignore_index=True)
     print(dataframe_results_CH.shape)
