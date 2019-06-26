@@ -204,7 +204,6 @@ def computeMeanStd(dataframe_data:pd.DataFrame):
 
     """
 
-    print(dataframe_data)
     dataframe_results = pd.DataFrame()
     results_mean = dataframe_data.mean().to_frame().T
     results_mean.columns = [str(col) + '_mean' for col in results_mean.columns]
@@ -213,7 +212,6 @@ def computeMeanStd(dataframe_data:pd.DataFrame):
     results_std.columns = [str(col) + '_std' for col in results_std.columns]
 
     dataframe_results = pd.concat([results_mean, results_std],  axis = 1, sort=False)
-    print(dataframe_results)
     return dataframe_results
 
 def validateProteinSequence(proteic_sequence:str):
@@ -249,6 +247,7 @@ def calculatePercentAAMolecularWeightByListProteins(list_proteins:list, is_bacte
     index_df = 0
     assert len(list_proteins) > 10, "Are you sure that you may have proteins in this organism? "
     for protein in list_proteins:
+        print(protein.id)
         #prot_seq = protein.sequence_AA + 'XXXXXXXXXXXXXXXXXXXX'
         #sequence = Seq(prot_seq, IUPAC.extended_protein)
         #X.sequence.alphabet = IUPACData.protein_letters
@@ -291,7 +290,7 @@ dataframe_results_CH = pd.DataFrame()
 
 
 for couple_obj in list_couples:
-    print(couple_obj)
+    print(couple_obj.id)
     id_new_phage = couple_obj.bacteriophage
     id_new_bacterium = couple_obj.bacterium
 
@@ -305,14 +304,12 @@ for couple_obj in list_couples:
         dataframe_percents_bacterium = calculatePercentAAMolecularWeightByListProteins(list_prots_bact, True)
 
     dataFrame_Cartezian = cartesian(dataframe_percents_bacterium, dataframe_percents_bacteriophage)
-    print(type(dataFrame_Cartezian))
     dataframe_resume_mean_std = computeMeanStd(dataFrame_Cartezian)
 
     dataframe_resume_mean_std['id_couple'] = couple_obj.id
     dataframe_resume_mean_std['label'] = couple_obj.interaction_type
 
     dataframe_results_CH = dataframe_results_CH.append(dataframe_resume_mean_std, ignore_index=True)
-    print(dataframe_results_CH.shape)
 
 file_to_save = 'dataset_CH.csv'
 dataframe_results_CH.to_csv(path_or_buffile_to_save, index=False)
