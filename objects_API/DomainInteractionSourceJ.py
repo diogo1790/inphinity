@@ -90,6 +90,29 @@ class DomainInteractionSourceJson(object):
         id_ddi = results_DDI['id_ddi_iteract_source']
         return id_ddi
 
+
+    def getDomainInteractionSourceByFilterParameter(dict_parameters:dict):
+        """
+        get a list of domains interactions sources given a filters by fields E.G: dict['domain_interaction']=10
+        return all domain interaction source for the  domains pair id n 10
+
+        :param dict_parameters: dictionary that contain the fields and values to filter
+
+        :type dict_parameters: dictionary
+
+        :return: a json of the domain interaction source
+        :rtype: list[DomainInteractionSourceJ]
+        """
+        url_parameters = ''
+        for key_param in dict_parameters:
+            url_parameters += key_param + '=' + str(dict_parameters[key_param]) + '&'
+
+        url_parameters = url_parameters[:-1]
+        list_domains_interact_source = DomainInteractionSourceAPI().getIdDDISByParameters(url_parameters)
+        schema = DomainInteractionSourceSchema()
+        results = schema.load(list_domains_interact_source, many=True)
+        return results
+
     def __str__(self):
         """
         override the Str function 

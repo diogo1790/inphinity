@@ -120,7 +120,7 @@ class ProteinJson(object):
         results_proteins_list_json = ProteinAPI().getByOrganismID(organism_id = organism_id)
         schema = ProteinSchema()
         results = schema.load(results_proteins_list_json, many = True)
-        return results[0]
+        return results
 
     def getProteinByFilterParameter(dict_parameters:dict):
         """
