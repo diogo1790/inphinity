@@ -223,6 +223,10 @@ def validateProteinSequence(proteic_sequence:str):
         proteic_sequence = proteic_sequence.replace('X','')
     if 'J' in proteic_sequence:
         proteic_sequence = proteic_sequence.replace('J','')
+    if 'B' in proteic_sequence:
+        proteic_sequence = proteic_sequence.replace('B','')
+    if 'Z' in proteic_sequence:
+        proteic_sequence = proteic_sequence.replace('Z','')
 
 
     return proteic_sequence
@@ -247,7 +251,7 @@ def calculatePercentAAMolecularWeightByListProteins(list_proteins:list, is_bacte
 
     dataframe_percents = pd.DataFrame()
     index_df = 0
-    assert len(list_proteins) > 10, "Are you sure that you may have proteins in this organism? "
+    assert len(list_proteins) > 3, "Are you sure that you may have proteins in this organism? "
     for protein in list_proteins:
         print(protein.id)
         #prot_seq = protein.sequence_AA + 'XXXXXXXXXXXXXXXXXXXX'
