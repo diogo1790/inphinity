@@ -318,7 +318,7 @@ def load_index_couple(path_load:str):
     array_index = []
     my_file = Path(path_load)
     if my_file.is_file():
-        array_index = np.loadtxt(path_load, delimiter=',')
+        array_index = np.loadtxt(path_load, delimiter=',').astype(int)
     return array_index
 
 def load_dataset_couples(path_load:str):
@@ -360,8 +360,6 @@ dataframe_results_CH =load_dataset_couples(path_dataset_existant)
 
 array_id_couple_treatment = load_index_couple(path_index_couples_treated)
 
-
-array_id_couple_treatment = array_id_couple_treatment.astype(int)
 
 for couple_obj in list_couples:
     print('start couple {0}'.format(str(couple_obj.id)))
