@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from configuration.configuration_api import ConfigurationAPI
 from rest_client.AuthenticationRest import AuthenticationAPI
 
@@ -253,7 +255,8 @@ def calculatePercentAAMolecularWeightByListProteins(list_proteins:list, is_bacte
     index_df = 0
     assert len(list_proteins) > 3, "Are you sure that you may have proteins in this organism? "
     for protein in list_proteins:
-        print(protein.id)
+        #print(protein.id)
+
         #prot_seq = protein.sequence_AA + 'XXXXXXXXXXXXXXXXXXXX'
         #sequence = Seq(prot_seq, IUPAC.extended_protein)
         #X.sequence.alphabet = IUPACData.protein_letters
@@ -284,6 +287,60 @@ def calculatePercentAAMolecularWeightByListProteins(list_proteins:list, is_bacte
         dataframe_percents.columns = [str(col) + '_phage' for col in dataframe_percents.columns]
     return dataframe_percents
 
+def write_indexs_couples(list_index:list, path_save:str):
+    """
+
+    write the index of the couples already analysed 
+
+    :param list_index: list of couples already treated
+    :param path_save: path where you want to save the information
+
+    :type list_index: list[ProteinJ] 
+    :type path_save: str
+
+    """
+    np.savetxt(path_save, list_index, delimiter=',') 
+
+def load_index_couple(path_load:str):
+    """
+
+    read the index of the couples treated
+
+    :param path_load: path where you want to save the information
+
+    :type path_load: str
+
+    :return: array with the indexs
+    :rtype: numPy array
+
+    """
+
+    array_index = []
+    my_file = Path(path_load)
+    if my_file.is_file():
+        array_index = np.loadtxt(path_load, delimiter=',')
+    return array_index
+
+def load_dataset_couples(path_load:str):
+    """
+
+    read the dataset already existant
+
+    :param path_load: path where you want to save the information
+
+    :type path_load: str
+
+    :return: the dataframe that contain the dataset
+    :rtype: pandas dataframe
+
+    """
+
+    dataframe_csv_existant = pd.DataFrame()
+    my_file = Path(path_load)
+    if my_file.is_file():
+        dataframe_csv_existant = pd.read_csv(path_load) 
+    return dataframe_csv_existant
+
 dict_param_couple = {}
 dict_param_couple['level_id'] = 1
 list_couples = getAllCouplesByParameters(dict_param_couple)
@@ -292,32 +349,54 @@ id_old_bacterium = -1
 list_prots_phage = []
 list_prots_bact = []
 dataframe_percents_bacterium = pd.DataFrame()
-dataframe_results_CH = pd.DataFrame()
 
+
+path_or_buffile_to_save = 'dataset_CH.csv'
+path_index_couples_treated = 'index_couples.csv'
+path_dataset_existant = 'dataset_CH.csv'
+
+dataframe_results_CH =load_dataset_couples(path_dataset_existant)
+
+
+array_id_couple_treatment = load_index_couple(path_index_couples_treated)
+
+
+array_id_couple_treatment = array_id_couple_treatment.astype(int)
 
 for couple_obj in list_couples:
-    print(couple_obj.id)
-    id_new_phage = couple_obj.bacteriophage
-    id_new_bacterium = couple_obj.bacterium
+    print('start couple {0}'.format(str(couple_obj.id)))
+    id_couple = couple_obj.id
+
+    if id_couple not in array_id_couple_treatment:
+        id_new_phage = couple_obj.bacteriophage
+        id_new_bacterium = couple_obj.bacterium
 
 
-    list_prots_phage = getAllProteinsByOrganism(couple_obj.bacteriophage)
-    dataframe_percents_bacteriophage = calculatePercentAAMolecularWeightByListProteins(list_prots_phage, False)
+        list_prots_phage = getAllProteinsByOrganism(couple_obj.bacteriophage)
+        dataframe_percents_bacteriophage = calculatePercentAAMolecularWeightByListProteins(list_prots_phage, False)
 
-    if id_new_bacterium != id_old_bacterium:
-        id_old_bacterium = id_new_bacterium
-        list_prots_bact = getAllProteinsByOrganism(couple_obj.bacterium)
-        dataframe_percents_bacterium = calculatePercentAAMolecularWeightByListProteins(list_prots_bact, True)
+        if id_new_bacterium != id_old_bacterium:
+            id_old_bacterium = id_new_bacterium
+            list_prots_bact = getAllProteinsByOrganism(couple_obj.bacterium)
+            dataframe_percents_bacterium = calculatePercentAAMolecularWeightByListProteins(list_prots_bact, True)
 
-    dataFrame_Cartezian = cartesian(dataframe_percents_bacterium, dataframe_percents_bacteriophage)
-    dataframe_resume_mean_std = computeMeanStd(dataFrame_Cartezian)
+        dataFrame_Cartezian = cartesian(dataframe_percents_bacterium, dataframe_percents_bacteriophage)
+        dataframe_resume_mean_std = computeMeanStd(dataFrame_Cartezian)
 
-    dataframe_resume_mean_std['id_couple'] = couple_obj.id
-    dataframe_resume_mean_std['label'] = couple_obj.interaction_type
+        dataframe_resume_mean_std['id_couple'] = couple_obj.id
+        dataframe_resume_mean_std['label'] = couple_obj.interaction_type
 
-    dataframe_results_CH = dataframe_results_CH.append(dataframe_resume_mean_std, ignore_index=True)
+        dataframe_results_CH = dataframe_results_CH.append(dataframe_resume_mean_std, ignore_index=True)
 
-file_to_save = 'dataset_CH.csv'
+        array_id_couple_treatment = np.append(array_id_couple_treatment, id_couple)
+
+        write_indexs_couples(array_id_couple_treatment, path_index_couples_treated)
+        
+        
+        dataframe_results_CH.to_csv(path_or_buffile_to_save, index=False)
+    print('End couple {0}'.format(str(couple_obj.id)))
+
+
 dataframe_results_CH.to_csv(path_or_buffile_to_save, index=False)
 
 list_prots = getAllProteinsByOrganism(list_couples[0].bacteriophage)
