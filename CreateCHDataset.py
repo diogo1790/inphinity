@@ -221,7 +221,7 @@ def validateProteinSequence(proteic_sequence:str):
         proteic_sequence = proteic_sequence.replace('*','')
     if '"' in proteic_sequence:
         proteic_sequence = proteic_sequence.replace('"','')
-    if 'X' in proteic_sequence:
+    if 'X' in proteic_sequence or 'x' in proteic_sequence:
         proteic_sequence = proteic_sequence.replace('X','')
     if 'J' in proteic_sequence:
         proteic_sequence = proteic_sequence.replace('J','')
