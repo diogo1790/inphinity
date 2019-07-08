@@ -263,6 +263,7 @@ def calculatePercentAAMolecularWeightByListProteins(list_proteins:list, is_bacte
         protein_sequence = protein.sequence_AA
 
         protein_sequence_molecular_weight = validateProteinSequence(protein_sequence)
+        protein_sequence_molecular_weight = protein_sequence_molecular_weight.upper()
         prot_seq_treated = ProteinAnalysis(protein_sequence_molecular_weight)
         molecular_weight = prot_seq_treated.molecular_weight()
         chemical_component_dataframe = countChemicalComponents(protein_sequence)
