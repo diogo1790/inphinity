@@ -175,7 +175,7 @@ def dataTreatmentVecBins(dataframe_csv_base:pd.DataFrame, save_zeros:bool):
         list_values.pop(0)
         #Remove the label
         list_values.pop()
-        list_frequencies_hist = createVectorScores(list_values, True)
+        list_frequencies_hist = createVectorScores(list_values, save_zeros)
         qty_elements = countNumberofScores(list_values)
         qty_scores = len(list_frequencies_hist)
         assert qty_scores == qty_elements
@@ -285,7 +285,7 @@ def writeDataframeToCSV(dataframe_bins:pd.DataFrame, file_write:str):
 
 path_csv = 'bins_base_573_SB1_ZERO.csv'
 
-dataframe_csv_base = pd.read_csv(filepath_or_buffer=path_csv, delimiter=';')
+dataframe_csv_base = pd.read_csv(filepath_or_buffer=path_csv, delimiter=',')
 print(dataframe_csv_base)
 
 
@@ -298,7 +298,7 @@ max_score = 573
 #dataframe_csv_base = dataframe_csv_base.head(10)
 #print(dataframe_csv_base.shape)
 
-vec_ids, vec_labels, matrix_frequencies = dataTreatmentVecBins(dataframe_csv_base, True)
+vec_ids, vec_labels, matrix_frequencies = dataTreatmentVecBins(dataframe_csv_base, False)
 #max_socre = 573
 #number_of_bins = 20
 
@@ -310,11 +310,11 @@ vec_size_of_bins = [1,5,10,15,20,50]
 #performe the number of bins
 for number_of_bins in vec_number_of_bins:
     dataframe_results = constructNumberOfBins(vec_ids, vec_labels, matrix_frequencies, max_score, number_of_bins)
-    file_name = 'NB_' + str(number_of_bins) + '_zeros.csv'
+    file_name = 'NB_' + str(number_of_bins) + '.csv'
     writeDataframeToCSV(dataframe_results, file_name)
 
 #perform the size of bins
 for size_fo_bins in vec_size_of_bins:
     dataframe_results = constructSizeOfBins(vec_ids, vec_labels, matrix_frequencies, max_score, size_fo_bins)
-    file_name = 'SB_' + str(size_fo_bins) + '_zeros.csv'
+    file_name = 'SB_' + str(size_fo_bins) + '.csv'
     writeDataframeToCSV(dataframe_results, file_name)
