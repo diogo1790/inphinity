@@ -309,7 +309,7 @@ vec_number_of_bins = [1,5,10,15,30,50]
 vec_size_of_bins = [1,5,10,15,20,50]
 #performe the number of bins
 for number_of_bins in vec_number_of_bins:
-    dataframe_results = constructNumberOfBins(vec_ids, vec_labels, matrix_frequencies, max_socre, number_of_bins)
+    dataframe_results = constructNumberOfBins(vec_ids, vec_labels, matrix_frequencies, max_score, number_of_bins)
     file_name = 'NB_' + str(number_of_bins) + '_zeros.csv'
     writeDataframeToCSV(dataframe_results, file_name)
 
