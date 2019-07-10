@@ -253,7 +253,7 @@ def calculatePercentAAMolecularWeightByListProteins(list_proteins:list, is_bacte
 
     dataframe_percents = pd.DataFrame()
     index_df = 0
-    assert len(list_proteins) > 3, "Are you sure that you may have proteins in this organism? "
+    assert len(list_proteins) >= 3, "Are you sure that you may have proteins in this organism? "
     for protein in list_proteins:
         #print(protein.id)
 
