@@ -315,6 +315,6 @@ for number_of_bins in vec_number_of_bins:
 
 #perform the size of bins
 for size_fo_bins in vec_size_of_bins:
-    dataframe_values = constructSizeOfBins(vec_ids, vec_labels, matrix_frequencies, 573, size_fo_bins)
+    dataframe_results = constructSizeOfBins(vec_ids, vec_labels, matrix_frequencies, max_score, size_fo_bins)
     file_name = 'SB_' + str(size_fo_bins) + '_zeros.csv'
     writeDataframeToCSV(dataframe_results, file_name)
