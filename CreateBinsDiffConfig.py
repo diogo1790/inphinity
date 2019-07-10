@@ -295,10 +295,10 @@ dataframe_bins_bins_values = pd.DataFrame()
 max_score = 573
 
 #take the first 100 rows
-#dataframe_csv_base = dataframe_csv_base.head(10)
+dataframe_csv_base = dataframe_csv_base.head(10)
 #print(dataframe_csv_base.shape)
-
-vec_ids, vec_labels, matrix_frequencies = dataTreatmentVecBins(dataframe_csv_base, False)
+use_zeros = False
+vec_ids, vec_labels, matrix_frequencies = dataTreatmentVecBins(dataframe_csv_base, use_zeros)
 #max_socre = 573
 #number_of_bins = 20
 
