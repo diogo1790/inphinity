@@ -288,8 +288,6 @@ path_csv = 'bins_base_573_SB1_ZERO.csv'
 dataframe_csv_base = pd.read_csv(filepath_or_buffer=path_csv, delimiter=';')
 print(dataframe_csv_base)
 
-list_values = []
-number_of_bins = 10
 
 dataframe_bins_data = pd.DataFrame()
 dataframe_bins_bins_values = pd.DataFrame()
@@ -297,8 +295,8 @@ dataframe_bins_bins_values = pd.DataFrame()
 max_score = 573
 
 #take the first 100 rows
-dataframe_csv_base = dataframe_csv_base.head(10)
-print(dataframe_csv_base.shape)
+#dataframe_csv_base = dataframe_csv_base.head(10)
+#print(dataframe_csv_base.shape)
 
 vec_ids, vec_labels, matrix_frequencies = dataTreatmentVecBins(dataframe_csv_base, True)
 #max_socre = 573
