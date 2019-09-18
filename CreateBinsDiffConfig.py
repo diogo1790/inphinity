@@ -183,7 +183,7 @@ def dataTreatmentVecBins(dataframe_csv_base:pd.DataFrame, save_zeros:bool):
         vec_ids.append(id_interaction)
         vec_labels.append(label_value)
         matrix_frequencies.append(list_frequencies_hist)
-        print('N row treated {0}'.format(len(vec_labels)))
+        #print('N row treated {0}'.format(len(vec_labels)))
 
     return vec_ids, vec_labels, matrix_frequencies
 
@@ -295,7 +295,7 @@ dataframe_bins_bins_values = pd.DataFrame()
 max_score = 573
 
 #take the first 100 rows
-dataframe_csv_base = dataframe_csv_base.head(10)
+#dataframe_csv_base = dataframe_csv_base.head(10)
 #print(dataframe_csv_base.shape)
 use_zeros = False
 vec_ids, vec_labels, matrix_frequencies = dataTreatmentVecBins(dataframe_csv_base, use_zeros)
